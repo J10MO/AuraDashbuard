@@ -18,12 +18,22 @@ export const orderService = {
   },
 
   updateOrderStatus: async (orderId: number, status: string) => {
-    const response = await api.put(`/admin/orders/${orderId}/status`, { status })
+    const response = await api.put(`/orders/${orderId}/status`, { status })
     return response.data
   },
 
   updateOrder: async (orderId: number, orderData: any) => {
-    const response = await api.put(`/admin/orders/${orderId}`, orderData)
+    const response = await api.put(`/orders/${orderId}`, orderData)
+    return response.data
+  },
+
+  deleteOrder: async (orderId: number) => {
+    const response = await api.delete(`/orders/${orderId}`)
+    return response.data
+  },
+
+  cancelOrder: async (orderId: number) => {
+    const response = await api.put(`/orders/${orderId}/cancel`)
     return response.data
   },
 }

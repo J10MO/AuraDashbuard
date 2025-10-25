@@ -9,6 +9,8 @@ import ProductsPage from "@/pages/ProductsPage"
 import CategoriesPage from "@/pages/CategoriesPage"
 import UsersPage from "@/pages/UsersPage"
 import AdsPage from "@/pages/AdsPage"
+import CartPage from "@/pages/CartPage"
+import FavoritesPage from "@/pages/FavoritesPage"
 
 export default function App() {
   return (
@@ -68,6 +70,22 @@ export default function App() {
           element={
             <ProtectedRoute>
               <AdsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            <ProtectedRoute>
+              <CartPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/favorites"
+          element={
+            <ProtectedRoute>
+              <FavoritesPage />
             </ProtectedRoute>
           }
         />

@@ -8,15 +8,29 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../components/ui/alert-dialog"
 import { toast } from "sonner"
 import { format } from "date-fns"
-import { Package, Search, User, MapPin, Phone, Calendar, DollarSign } from "lucide-react"
+import { Package, Search, User, MapPin, Phone, Calendar, DollarSign, Trash2 } from "lucide-react"
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [statusFilter, setStatusFilter] = useState<string>("all")
   const [searchQuery, setSearchQuery] = useState("")
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const [orderToDelete, setOrderToDelete] = useState<number | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
 
   useEffect(() => {
     fetchOrders()
@@ -47,6 +61,29 @@ export default function OrdersPage() {
     } catch (error) {
       console.error("[v0] Failed to update order status:", error)
       toast.error("Failed to update order status")
+    }
+  }
+
+  const handleDeleteClick = (orderId: number) => {
+    setOrderToDelete(orderId)
+    setDeleteDialogOpen(true)
+  }
+
+  const handleDeleteConfirm = async () => {
+    if (!orderToDelete) return
+
+    setIsDeleting(true)
+    try {
+      await orderService.deleteOrder(orderToDelete)
+      setOrders(orders.filter((order) => order.id !== orderToDelete))
+      toast.success("Order deleted successfully")
+      setDeleteDialogOpen(false)
+      setOrderToDelete(null)
+    } catch (error) {
+      console.error("[v0] Failed to delete order:", error)
+      toast.error("Failed to delete order")
+    } finally {
+      setIsDeleting(false)
     }
   }
 
@@ -194,9 +231,19 @@ export default function OrdersPage() {
                         </p>
                       </div>
                     </div>
-                    <Badge className={getStatusColor(order.status)} variant="outline">
-                      {order.status.toUpperCase()}
-                    </Badge>
+                    <div className="flex items-center gap-2">
+                      <Badge className={getStatusColor(order.status)} variant="outline">
+                        {order.status.toUpperCase()}
+                      </Badge>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleDeleteClick(order.id)}
+                        className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
                 </CardHeader>
                 <CardContent className="p-6">
@@ -333,6 +380,28 @@ export default function OrdersPage() {
           </div>
         )}
       </div>
+
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Order</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this order? This action cannot be undone and will permanently remove the
+              order and all its items from the database.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteConfirm}
+              disabled={isDeleting}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {isDeleting ? "Deleting..." : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </DashboardLayout>
   )
 }

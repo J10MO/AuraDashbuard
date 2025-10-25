@@ -17,6 +17,8 @@ import {
   Menu,
   Sun,
   Moon,
+  Heart,
+  ShoppingBag,
 } from "lucide-react"
 import { useState } from "react"
 
@@ -42,6 +44,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     { path: "/products", label: "Products", icon: Package },
     { path: "/categories", label: "Categories", icon: FolderTree },
     { path: "/users", label: "Users", icon: Users },
+    { path: "/cart", label: "Carts", icon: ShoppingBag }, // Added Cart navigation
+    { path: "/favorites", label: "Favorites", icon: Heart }, // Added Favorites navigation
     { path: "/ads", label: "Ads", icon: Megaphone },
   ]
 
