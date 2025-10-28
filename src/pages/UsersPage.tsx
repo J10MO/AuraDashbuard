@@ -277,7 +277,7 @@ export default function UsersPage() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Roles</SelectItem>
-                  <SelectItem value="user">User</SelectItem>
+                  <SelectItem value="customer">customer</SelectItem>
                   <SelectItem value="admin">Admin</SelectItem>
                 </SelectContent>
               </Select>
@@ -425,13 +425,13 @@ export default function UsersPage() {
                   <Label htmlFor="role">Role</Label>
                   <Select
                     value={editingUser.role}
-                    onValueChange={(value: "user" | "admin") => setEditingUser({ ...editingUser, role: value })}
+                    onValueChange={(value: "customer" | "admin") => setEditingUser({ ...editingUser, role: value })}
                   >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="user">User</SelectItem>
+                      <SelectItem value="customer">customer</SelectItem>
                       <SelectItem value="admin">Admin</SelectItem>
                     </SelectContent>
                   </Select>
