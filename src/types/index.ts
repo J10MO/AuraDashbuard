@@ -407,18 +407,7 @@ export interface OrderItem {
   created_at: string
 }
 
-// export interface Ad {
-//   id: number
-//   title: string
-//   description?: string
-//   image_url: string
-//   link_url?: string
-//   position: "homepage" | "sidebar" | "banner"
-//   is_active: boolean
-//   view_count: number
-//   click_count: number
-//   created_at: string
-// }
+
 
 export interface Ad {
   id: number
@@ -463,6 +452,7 @@ export interface UserFavorite {
   user_phone: string
   favorites: Product[]
   total_favorites: number
+  
 }
 
 export interface DashboardStats {

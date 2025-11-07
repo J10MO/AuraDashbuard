@@ -124,3 +124,35 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Responsive gradient text */
+.ubuntu-gradient-text-responsive {
+  color: #fff;
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-weight: 700;
+  font-family: "ubuntu", Arial, sans-serif;
+  background: linear-gradient(to right, #095fab 10%, #25abe8 50%, #57d75b 60%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textclip 1.5s linear infinite;
+  display: inline-block;
+  line-height: 1.2;
+}
+
+/* Enhanced animation */
+@keyframes textclip {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Optional: Add a subtle shadow for better readability */
+.ubuntu-gradient-text,
+.ubuntu-gradient-text-responsive {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
